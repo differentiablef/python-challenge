@@ -54,11 +54,10 @@ def print_summary():
     max_inc_month = months[ deltas.index(max_inc) + 1 ]
     
     print("Financial Summary/Analysis\n----------------------------------------\n"
-          " Months:\n   {:20s}:{:>15d}\n\n"
-          " Profit/Loss:\n   {:20s}: ${:13.2f}\n   {:20s}: ${:13.2f}\n\n"
-          " Extrema:\n   {:20s}: ${:13.2f}\n   {:20s}:{:>15s}\n"
-          "   {:20s}: ${:13.2f}\n"
-          "   {:20s}:{:>15s}\n".format("Total", len(months),
+          " Months:\n  {:20s}:{:>15d}\n\n"
+          " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
+          " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}: ${:13.2f}\n"
+          "  {:20s}:{:>15s}\n".format("Total", len(months),
                                         "Total", sum(values),
                                         "Average Change", sum(deltas)/len(deltas),
                                         "Max. Increase", max_inc,
