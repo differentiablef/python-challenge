@@ -70,6 +70,29 @@ def extract_data(header=True):
             pass
 
 
+def compute_results():
+    """computes matrix of county-level results, with rows corresponding to counties 
+       and columns corresponding to candidates; as well as vector of popular vote
+       totals indexed by candidate
+
+       returns tuple consisting of the matrix in the first coordinate and 
+       vector in the second
+       """
+
+    results = \
+        dict(map(lambda x : \
+                      ( x, sum(map(len, votes[x].values())) ),
+                 candidates))
+    
+    county_results = \
+        dict(map(lambda x : \
+                      ( x, dict(map(lambda y : \
+                                         ( y, len(votes[y][x]) ),
+                                    candidates)) ),
+                 counties))
+    
+    return (county_results, results)
+
 
 if __name__ == "__main__": 
     sys.exit(0) # exit cleanly
