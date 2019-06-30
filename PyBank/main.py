@@ -19,7 +19,7 @@ def extract_data():
     
     with open(data_path) as infile:
         # create reader
-        csvobj = csv.reader(infile, delimitor=',')
+        csvobj = csv.reader(infile, delimiter=',')
 
         # burn header
         next(csvobj)
