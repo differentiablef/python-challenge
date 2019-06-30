@@ -42,7 +42,7 @@ def extract_data(header=True):
 
 def print_summary():
     """print summary info. for data extracted using 'extract_data' method"""
-
+    
     # extract largest total *decrease* in profit by
     #    finding minimum value of negative changes to profit
     max_dec = min(filter(lambda x : x < 0, deltas))
@@ -53,17 +53,17 @@ def print_summary():
     max_inc = max(filter(lambda x : x > 0, deltas))
     max_inc_month = months[ deltas.index(max_inc) + 1 ]
     
-    print("Financial Summary/Analysis\n----------------------------------------\n"
+    print("Summary/Analysis\n---------------------------------------\n"
           " Months:\n  {:20s}:{:>15d}\n\n"
           " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
-          " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}: ${:13.2f}\n"
-          "  {:20s}:{:>15s}\n".format("Total", len(months),
-                                        "Total", sum(values),
-                                        "Average Change", sum(deltas)/len(deltas),
-                                        "Max. Increase", max_inc,
-                                        "Max. Increase Month", max_inc_month,
-                                        "Min. Decrease", max_dec,
-                                        "Min. Decrease Month", max_dec_month))
+          " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}:"
+          " ${:13.2f}\n  {:20s}:{:>15s}\n".format("Total", len(months),
+                                      "Total", sum(values),
+                                      "Average Change", sum(deltas)/len(deltas),
+                                      "Max. Increase", max_inc,
+                                      "Max. Increase Month", max_inc_month,
+                                      "Min. Decrease", max_dec,
+                                      "Min. Decrease Month", max_dec_month))
     return
 
 # script entry-point ###########################################################
