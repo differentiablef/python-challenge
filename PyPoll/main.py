@@ -52,10 +52,10 @@ def extract_data(header=True):
 
                 # votes[candidate][county]:
                 #
-                #   Since voters in a particular county can only cast a single vote,
-                #    we will identify the portion of votes cast for 'candidate' 
-                #    from 'county' with the set() of voter-id's of people
-                #    who voted for 'candidate' in 'county'
+                #   Since voters in a particular county can only cast a single
+                #    vote, we will identify the portion of votes cast for
+                #    'candidate' from 'county' with the set() of voter-id's of
+                #    people who voted for 'candidate' in 'county'
                 #
                 votes[candidate][county] = set()
 
@@ -71,31 +71,37 @@ def extract_data(header=True):
 
 
 def compute_results():
-    """computes matrix of county-level results, with rows corresponding to counties 
-       and columns corresponding to candidates; as well as vector of popular vote
-       totals indexed by candidate
+    """computes matrix of county-level results, with rows corresponding to
+       candidates and columns corresponding to counties; as well as vector of 
+       popular vote totals indexed by candidate
 
        returns tuple consisting of the matrix in the first coordinate and 
        vector in the second
        """
-
+    
+    # popular vote results
     results = \
         dict(map(lambda x : \
                       ( x, sum(map(len, votes[x].values())) ),
                  candidates))
     
+    # election results by county
     county_results = \
         dict(map(lambda x : \
                       ( x, dict(map(lambda y : \
-                                         ( y, len(votes[y][x]) ),
-                                    candidates)) ),
-                 counties))
+                                         ( y, len(votes[x][y]) ),
+                                    counties)) ),
+                 candidates))
     
     return (county_results, results)
 
 
+def dump_results(results, county_results, out=sys.stdout):
+    pass
+
+
 if __name__ == "__main__":
-    print("something dumber")
+
     sys.exit(0) # exit cleanly
 
     
