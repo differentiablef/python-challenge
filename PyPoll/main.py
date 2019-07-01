@@ -95,7 +95,7 @@ def compute_results():
 
 
 if __name__ == "__main__":
-    print("something dumb")
+    print("something dumber")
     sys.exit(0) # exit cleanly
 
     
