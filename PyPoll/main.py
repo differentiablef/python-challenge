@@ -71,37 +71,78 @@ def extract_data(header=True):
 
 
 def compute_results():
-    """computes matrix of county-level results, with rows corresponding to
-       candidates and columns corresponding to counties; as well as vector of 
-       popular vote totals indexed by candidate
+    """assemble matrix of county-level vote totals, with rows corresponding to
+       candidates and columns corresponding to counties; 
 
-       returns tuple consisting of the matrix in the first coordinate and 
-       vector in the second
+       returns said matrix
        """
-    
-    # popular vote results
-    results = \
-        dict(map(lambda x : \
-                      ( x, sum(map(len, votes[x].values())) ),
-                 candidates))
-    
     # election results by county
-    county_results = \
+    results = \
         dict(map(lambda x : \
                       ( x, dict(map(lambda y : \
                                          ( y, len(votes[x][y]) ),
                                     counties)) ),
                  candidates))
+    return results
+
+def save_results(results, out=sys.stdout):
+    """dump the contents of the structure 'results' to file() 'out'
+       using an appropriate file schema"""
+    pass
+
+
+def print_summary(results, out=sys.stdout):
+    """print a human-readable summary of 'results' to the file() 'out'
+       meeting the requirements of the exercise"""
+
+    ll = len(counties) * 11 - 2
+    topfmt = "{:>10s} | {:<" + str(ll) + "s}| {:<10s}"
+    rowfmt = " {:>9s} :" + "{:>10.0f} " * (len(counties) - 1)+"{:>10.0f} : {:<9.0f}"
+
+
+    print("Election Info\n"+"-"*80)
     
-    return (county_results, results)
+    #print(f"Candidates: {len(candidates)}")
+    #print(f"Votes-Cast: "
+    #      f"{sum([sum(map(len, votes[can].values())) for can in candidates])}")
+          
+    #pop = sum(map( lambda x : sum(county_results[x].values()), candidates ))
+    #cty_pop = dict( [ (cty, sum(map(lambda x : county_results[x].get(cty), candidates))) for cty in sorted(counties) ] )
+
+    print("Results:\n"+"-"*80)
+    print(topfmt.format("[Name]", "[Votes] (by county)", "[Total]"))
+    print("-"*80)
+    for can in sorted(candidates):
+        
+        total = sum(results[can].values())
+        itr   = map(results[can].get, sorted(counties))
+        print(rowfmt.format(can, *itr,  total))
 
 
-def dump_results(results, county_results, out=sys.stdout):
+    print("-"*80)
+    keyfmt = "County-Totals:" +"{:>8d} " + "{:>10d} " * (len(counties)-2)+"{:>10d}"
+    bycty = [sum([results[c].get(ct) for c in candidates] ) \
+             for ct in sorted(counties)]
+    print(keyfmt.format(*bycty))
+    keyfmt = "County-Name:" + "{:>10s} " * (len(counties) - 1)+"{:>10s}"
+    print(keyfmt.format(*sorted(counties)))
+    print(f"Counties: {len(counties)}")
+
+
     pass
 
 
 if __name__ == "__main__":
+    output_file = os.path.join('.', 'results')
+    
+    extract_data()               # extract data from file
+    results = compute_results()  # compute/assemble derived 'results'
+    print_summary(results)       # print a summary of 'results'
+    
+    with open(output_file, "w") as ofile:
+        save_results(ofile)     # dump 'results' to output file
 
+    
     sys.exit(0) # exit cleanly
 
     
