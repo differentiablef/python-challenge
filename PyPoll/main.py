@@ -94,7 +94,8 @@ def compute_results():
     return (county_results, results)
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
+    print("something dumb")
     sys.exit(0) # exit cleanly
 
     
