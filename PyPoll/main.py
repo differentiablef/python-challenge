@@ -58,7 +58,7 @@ def load_data(header=True):
                 # (done here to cut down on errant calls to 'add')
                 counties.add(county)
 
-            # count vote by placing 'voterid' in set() corresponding to
+            # record vote by placing 'voterid' in set() corresponding to
             # 'name' selected and 'county' voted in.            
             votes[name][county].add(voterid)
             pass    
