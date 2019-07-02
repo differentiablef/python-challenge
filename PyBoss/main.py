@@ -30,3 +30,4 @@ with open(data_path, newline='') as infile:
         clean.writeheader()
         clean.writerow(map(term, data))
         pass # gg <3
+    
