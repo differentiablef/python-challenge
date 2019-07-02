@@ -1,5 +1,6 @@
 # imports ######################################################################
 
+import pandas as pd
 import sys, os, csv
 
 # variables ####################################################################
@@ -8,7 +9,6 @@ data_path = os.path.join('.', 'Resources', 'election_data.csv')
 
 candidates = set()  # set of candidates appearing in data
 counties   = set()  # set of counties   ...
-
 votes      = dict() # structure encoding data entries,
                     #      indexed by candidate then county
 
@@ -39,19 +39,16 @@ def extract_data(header=True):
                 candidates.add(candidate)
 
                 # "votes[candidate]":
-                #
                 #    The votes for each candidate are partitioned
-                #       by county (i.e. indexed by counties) so we use
-                #       a dict()
+                #       by county (i.e. indexed by counties) so we 
+                #       initialize votes[candidate] accordingly
                 #
                 votes[candidate] = dict()
-
             
             if not county in votes[candidate]:
                 # add county to counties and initialize votes[candidate][county]
 
                 # votes[candidate][county]:
-                #
                 #   Since voters in a particular county can only cast a single
                 #    vote, we will identify the portion of votes cast for
                 #    'candidate' from 'county' with the set() of voter-id's of
@@ -71,32 +68,26 @@ def extract_data(header=True):
 
 
 def compute_results():
-    """computes matrix of county-level results, with rows corresponding to
-       candidates and columns corresponding to counties; as well as vector of 
-       popular vote totals indexed by candidate
+    """assembles table of results by county, with rows corresponding to
+       candidates and columns corresponding to counties
 
-       returns tuple consisting of the matrix in the first coordinate and 
-       vector in the second
-       """
-    
-    # popular vote results
-    results = \
-        dict(map(lambda x : \
-                      ( x, sum(map(len, votes[x].values())) ),
-                 candidates))
-    
+       returns pd.DataFrame of the assembled table
+       """    
     # election results by county
-    county_results = \
+    results = \
         dict(map(lambda x : \
                       ( x, dict(map(lambda y : \
                                          ( y, len(votes[x][y]) ),
                                     counties)) ),
                  candidates))
     
-    return (county_results, results)
+    # return Pandas frame initialized with table
+    return pd.DataFrame( results )
 
+def print_summary(results, out=sys.stdout):
+    pass
 
-def dump_results(results, county_results, out=sys.stdout):
+def dump_results(results, pathname):
     pass
 
 
