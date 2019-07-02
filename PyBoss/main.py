@@ -28,6 +28,6 @@ with open(data_path, newline='') as infile:
     with open(clean_path, "w", newline='') as outfile:
         clean = csv.DictWriter(outfile, fields)
         clean.writeheader()
-        clean.writerow(map(term, data))
+        clean.writerows(map(term, data))
         pass # gg <3
     
