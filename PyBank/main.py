@@ -52,19 +52,20 @@ def print_summary(out=sys.stdout):
     #    finding maximum value of postitive changes to profit
     max_inc = max(filter(lambda x : x > 0, deltas))
     max_inc_month = months[ deltas.index(max_inc) + 1 ]
+
+    fmt = ("Summary/Analysis\n---------------------------------------\n"
+           " Months:\n  {:20s}:{:>15d}\n\n"
+           " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
+           " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}:"
+           " ${:13.2f}\n  {:20s}:{:>15s}\n")
     
-    print(file=out,
-          "Summary/Analysis\n---------------------------------------\n"
-          " Months:\n  {:20s}:{:>15d}\n\n"
-          " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
-          " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}:"
-          " ${:13.2f}\n  {:20s}:{:>15s}\n".format("Total", len(months),
-                                      "Total", sum(values),
-                                      "Average Change", sum(deltas)/len(deltas),
-                                      "Max. Increase", max_inc,
-                                      "Max. Increase Month", max_inc_month,
-                                      "Min. Decrease", max_dec,
-                                      "Min. Decrease Month", max_dec_month))
+    print(fmt.format("Total", len(months),
+                     "Total", sum(values),
+                     "Average Change", sum(deltas)/len(deltas),
+                     "Max. Increase", max_inc,
+                     "Max. Increase Month", max_inc_month,
+                     "Min. Decrease", max_dec,
+                     "Min. Decrease Month", max_dec_month), file=out)
     pass
 
 # script entry-point ###########################################################
@@ -76,8 +77,8 @@ if __name__ == "__main__":
     # produce summary for data
     print_summary()
     
-    # write summay to 'save_file'
-    with open(save_file, "w") as out:
+    # write summay to 'save_path'
+    with open(save_path, "w") as out:
         print_summary(out=out)
         
     sys.exit(0)      # exit cleanly
