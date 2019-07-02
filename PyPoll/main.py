@@ -1,3 +1,4 @@
+
 # imports ######################################################################
 
 import pandas as pd
@@ -23,56 +24,48 @@ def extract_data(header=True):
         csvobj = csv.reader(infile, delimiter=',')
 
         # discard header, if present
-        if header:
-            next(csvobj)
+        (not header) or next(csvobj)
 
         # process remaining entries
         for entry in csvobj:
 
-            candidate = entry[2]
-            county    = entry[1]
-            voterid   = int(entry[0])
+            name    = entry[2]
+            county  = entry[1]
+            voterid = int(entry[0])
 
-            if not candidate in candidates:
-                # add candidate and initialize votes[candidate]
-                
-                candidates.add(candidate)
+            if not name in candidates:
+                # add name to candidates and initialize votes[name]
+                candidates.add(name)
 
-                # "votes[candidate]":
+                # "votes[name]":
                 #    The votes for each candidate are partitioned
-                #       by county (i.e. indexed by counties) so we 
-                #       initialize votes[candidate] accordingly
+                #       by county (i.e. indexed by counties) we 
+                #       initialize votes[name] accordingly
                 #
-                votes[candidate] = dict()
+                votes[name] = dict()
             
-            if not county in votes[candidate]:
+            if not county in votes[name]:
                 # add county to counties and initialize votes[candidate][county]
 
-                # votes[candidate][county]:
-qq<<<<<<< HEAD
-=======
-                #
->>>>>>> 9437792... added stub for dump_results
+                # votes[name][county]:
                 #   Since voters in a particular county can only cast a single
                 #    vote, we will identify the portion of votes cast for
-                #    'candidate' from 'county' with the set() of voter-id's of
-                #    people who voted for 'candidate' in 'county'
+                #    'name' from 'county' with the set() of voter-id's of
+                #    people who voted for 'name' in 'county'
                 #
-                votes[candidate][county] = set()
+                votes[name][county] = set()
 
                 # add 'county' to the set() of counties.
                 # (done here to cut down on errant calls to 'add')
                 counties.add(county)
 
-
             # count vote by placing 'voterid' in set() corresponding to
-            # 'candidate' selected and 'county' voted in.            
-            votes[candidate][county].add(voterid)
+            # 'name' selected and 'county' voted in.            
+            votes[name][county].add(voterid)
             pass
 
 
-def compute_results():
-<<<<<<< HEAD
+def assemble_results():
     """assembles table of results by county, with rows corresponding to
        candidates and columns corresponding to counties
 
@@ -81,31 +74,11 @@ def compute_results():
     # election results by county
     results = \
         dict(map(lambda x : \
-=======
-    """computes matrix of county-level results, with rows corresponding to
-       candidates and columns corresponding to counties; as well as vector of 
-       popular vote totals indexed by candidate
-
-       returns tuple consisting of the matrix in the first coordinate and 
-       vector in the second
-       """
-    
-    # popular vote results
-    results = \
-        dict(map(lambda x : \
-                      ( x, sum(map(len, votes[x].values())) ),
-                 candidates))
-    
-    # election results by county
-    county_results = \
-        dict(map(lambda x : \
->>>>>>> 9437792... added stub for dump_results
                       ( x, dict(map(lambda y : \
                                          ( y, len(votes[x][y]) ),
                                     counties)) ),
-                 candidates))
-    
-    # return Pandas frame initialized with table
+                 candidates))    
+    # return DataFrame initialized with table
     return pd.DataFrame( results )
 
 def print_summary(results, out=sys.stdout):
@@ -113,11 +86,6 @@ def print_summary(results, out=sys.stdout):
 
 def dump_results(results, pathname):
     pass
-
-
-def dump_results(results, county_results, out=sys.stdout):
-    pass
-
 
 if __name__ == "__main__":
 
