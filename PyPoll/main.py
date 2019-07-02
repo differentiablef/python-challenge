@@ -9,16 +9,17 @@ import sys, os, csv
 data_path = os.path.join('.', 'Resources', 'election_data.csv')
 save_path = os.path.join('.', 'election_results.txt')
 
-candidates = set()  # set of candidates appearing in data
-counties   = set()  # set of counties   ...
-votes      = dict() # structure encoding data entries
-
 # methods ######################################################################
 
 def load_data(header=True):
-    """Process contents of CSV file 'data_path' and populate the variables
+    """Process contents of CSV file 'data_path' and populate global variables
        'candidates', 'counties', and 'votes' with relevent data """
+    global candidates, counties, votes
     
+    candidates = set()  # set of candidates appearing in data
+    counties   = set()  # set of counties   ...
+    votes      = dict() # structure encoding data entries
+
     with open(data_path) as infile:
         # create reader associated with file-stream
         csvobj = csv.reader(infile, delimiter=',')
@@ -63,10 +64,11 @@ def load_data(header=True):
             votes[name][county].add(voterid)
             pass    
 
-def assemble_results():
+def get_results():
     """Assemble table of results by county, with columns corresponding to
        candidates and rows corresponding to counties.
        Returns: pd.DataFrame() containing table """
+    global candidates, counties, votes
     
     # get vote totals by county and candidate
     results = \
@@ -91,12 +93,12 @@ def print_summary(results, out=sys.stdout):
     combined = DataFrame({"votes": totals,
                            "perc": perc.apply("{:.2%}".format)})
     # summary format
-    fmt = (f" County Totals: {sep}{results.transpose()}{sep}"
+    fmt = (f"{sep}"
+           f" County Totals: {sep}{results.transpose()}{sep}"
            f"  Popular Vote: {sep}{combined.to_string(header=False)}{sep}"
            f"   Total Votes: {turnout}\n"
-           f"        Winner: {winner}")
-    
-    print(sep+fmt+sep, file=out)
+           f"        Winner: {winner}{sep}")
+    print(fmt, file=out)
     pass
 
 # script entry-point ###########################################################
@@ -106,7 +108,7 @@ if __name__ == "__main__":
     load_data()
  
     # extract results
-    results = assemble_results() 
+    results = get_results() 
 
     # display summary of results
     print_summary(results)    
