@@ -49,7 +49,7 @@ def extract_data(header=True):
                 # add county to counties and initialize votes[candidate][county]
 
                 # votes[candidate][county]:
-<<<<<<< HEAD
+qq<<<<<<< HEAD
 =======
                 #
 >>>>>>> 9437792... added stub for dump_results
