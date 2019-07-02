@@ -49,6 +49,10 @@ def extract_data(header=True):
                 # add county to counties and initialize votes[candidate][county]
 
                 # votes[candidate][county]:
+<<<<<<< HEAD
+=======
+                #
+>>>>>>> 9437792... added stub for dump_results
                 #   Since voters in a particular county can only cast a single
                 #    vote, we will identify the portion of votes cast for
                 #    'candidate' from 'county' with the set() of voter-id's of
@@ -68,6 +72,7 @@ def extract_data(header=True):
 
 
 def compute_results():
+<<<<<<< HEAD
     """assembles table of results by county, with rows corresponding to
        candidates and columns corresponding to counties
 
@@ -76,6 +81,25 @@ def compute_results():
     # election results by county
     results = \
         dict(map(lambda x : \
+=======
+    """computes matrix of county-level results, with rows corresponding to
+       candidates and columns corresponding to counties; as well as vector of 
+       popular vote totals indexed by candidate
+
+       returns tuple consisting of the matrix in the first coordinate and 
+       vector in the second
+       """
+    
+    # popular vote results
+    results = \
+        dict(map(lambda x : \
+                      ( x, sum(map(len, votes[x].values())) ),
+                 candidates))
+    
+    # election results by county
+    county_results = \
+        dict(map(lambda x : \
+>>>>>>> 9437792... added stub for dump_results
                       ( x, dict(map(lambda y : \
                                          ( y, len(votes[x][y]) ),
                                     counties)) ),
@@ -88,6 +112,10 @@ def print_summary(results, out=sys.stdout):
     pass
 
 def dump_results(results, pathname):
+    pass
+
+
+def dump_results(results, county_results, out=sys.stdout):
     pass
 
 
