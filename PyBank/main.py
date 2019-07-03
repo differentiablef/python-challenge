@@ -6,6 +6,7 @@ import sys, os, csv
 # variables ####################################################################
 
 data_path = os.path.join('.', 'Resources', 'budget_data.csv')
+save_path = os.path.join('.', 'budget_summary.txt')
 
 months = [ ]
 values = [ ]
@@ -13,7 +14,7 @@ deltas = [ ]
 
 # functions ####################################################################
 
-def extract_data(header=True):
+def load_data(header=True):
     """Process contents of CSV file 'data_path', populating the lists
        'months', 'values', and 'deltas' with the relevent information (in order)"""
     
@@ -40,9 +41,8 @@ def extract_data(header=True):
 
 
 
-def print_summary():
-    """print summary info. for data extracted using 'extract_data' method"""
-    
+def print_summary(out=sys.stdout):
+    """print summary info. for data to file() 'out'"""
     # extract largest total *decrease* in profit by
     #    finding minimum value of negative changes to profit
     max_dec = min(filter(lambda x : x < 0, deltas))
@@ -52,23 +52,33 @@ def print_summary():
     #    finding maximum value of postitive changes to profit
     max_inc = max(filter(lambda x : x > 0, deltas))
     max_inc_month = months[ deltas.index(max_inc) + 1 ]
+
+    fmt = ("Summary/Analysis\n---------------------------------------\n"
+           " Months:\n  {:20s}:{:>15d}\n\n"
+           " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
+           " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}:"
+           " ${:13.2f}\n  {:20s}:{:>15s}\n")
     
-    print("Summary/Analysis\n---------------------------------------\n"
-          " Months:\n  {:20s}:{:>15d}\n\n"
-          " Profit/Loss:\n  {:20s}: ${:13.2f}\n  {:20s}: ${:13.2f}\n\n"
-          " Extrema:\n  {:20s}: ${:13.2f}\n  {:20s}:{:>15s}\n  {:20s}:"
-          " ${:13.2f}\n  {:20s}:{:>15s}\n".format("Total", len(months),
-                                      "Total", sum(values),
-                                      "Average Change", sum(deltas)/len(deltas),
-                                      "Max. Increase", max_inc,
-                                      "Max. Increase Month", max_inc_month,
-                                      "Min. Decrease", max_dec,
-                                      "Min. Decrease Month", max_dec_month))
-    return
+    print(fmt.format("Total", len(months),
+                     "Total", sum(values),
+                     "Average Change", sum(deltas)/len(deltas),
+                     "Max. Increase", max_inc,
+                     "Max. Increase Month", max_inc_month,
+                     "Min. Decrease", max_dec,
+                     "Min. Decrease Month", max_dec_month), file=out)
+    pass
 
 # script entry-point ###########################################################
 
 if __name__ == "__main__":
-    extract_data()   # extract data from 'budget_data.csv'
-    print_summary()  # produce summary for extracted data
+    # load data from 'budget_data.csv'
+    load_data()
+
+    # produce summary for data
+    print_summary()
+    
+    # write summay to 'save_path'
+    with open(save_path, "w") as out:
+        print_summary(out=out)
+        
     sys.exit(0)      # exit cleanly
