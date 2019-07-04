@@ -8,41 +8,42 @@ import sys, os, csv
 data_path = os.path.join('.', 'Resources', 'budget_data.csv')
 save_path = os.path.join('.', 'budget_summary.txt')
 
-months = [ ]
-values = [ ]
-deltas = [ ]
-
-# functions ####################################################################
+# methods #######################################################################
 
 def load_data(header=True):
-    """Process contents of CSV file 'data_path', populating the lists
+    """Process contents of CSV file 'data_path', populating the global variables
        'months', 'values', and 'deltas' with the relevent information (in order)"""
+    global months, values, deltas
+    
+    months = list()
+    values = list()
+    deltas = list()
     
     with open(data_path) as infile:
         # create reader
         csvobj = csv.reader(infile, delimiter=',')
 
         # burn header, if present
-        if header:
-            next(csvobj)
+        (not header) or next(csvobj)
 
         # process remaining entries 
         for entry in csvobj:
-            
             month = entry[0]
             value = float( entry[1] )
 
-            if len(values) > 0:
+            if len(values):
                 deltas.append(value - values[-1])
                 
             values.append(value)
-            months.append(month)            
+            months.append(month)
     return
 
 
 
 def print_summary(out=sys.stdout):
     """print summary info. for data to file() 'out'"""
+    global months, values, deltas
+    
     # extract largest total *decrease* in profit by
     #    finding minimum value of negative changes to profit
     max_dec = min(filter(lambda x : x < 0, deltas))
@@ -73,12 +74,13 @@ def print_summary(out=sys.stdout):
 if __name__ == "__main__":
     # load data from 'budget_data.csv'
     load_data()
-
-    # produce summary for data
+    
+    # print summary of data
     print_summary()
     
     # write summay to 'save_path'
     with open(save_path, "w") as out:
         print_summary(out=out)
         
-    sys.exit(0)      # exit cleanly
+    # exit cleanly
+    sys.exit(0)
