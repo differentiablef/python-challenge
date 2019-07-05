@@ -1,4 +1,3 @@
-* Exercise
 ** DONE PyPoll
 The solution would have been much sorter (code length wise) if I had used pandas to group the data by the 'County' and 'Candidate' fields, then just counted the number of rows in each group. For example, something like
 
@@ -19,7 +18,7 @@ However, this seemed to run slower than my original code; so I kept my 'load_dat
 Used same pattern (with appropriate modifcations) that appears in the solution for PyPoll. 
 
 ** DONE PyBoss
-Used iterators and 'map' to reduce length and complexity of the script. After some code which sets up an appropriate context, all the action happens in the two lines, 
+Used 'map' to reduce length and complexity of the script. After some code which sets up an appropriate context, all the action happens in the two lines, 
 
 #+BEGIN_SRC python
         clean.writeheader()
