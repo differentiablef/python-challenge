@@ -1,0 +1,36 @@
+* Exercise
+** DONE PyPoll
+The solution would have been much sorter (code length wise) if I had used pandas to group the data by the 'County' and 'Candidate' fields, then just counted the number of rows in each group. For example, something like
+
+#+BEGIN_SRC python
+import os
+import pandas as pd
+datapath = os.path.join('.', 'Resources', 'election_data.csv')
+data = pd.read_csv(datapath) # read data
+grouped = data.groupby('Candidate', 'County']) # group data by county and candidate
+totals = (grouped.nunique())['Voter ID']
+# ... 
+#    formatting and printing of summary
+#+END_SRC
+
+However, this seemed to run slower than my original code; so I kept my 'load_data' method and just used DataFrames to help with formatting the summary.
+
+** DONE PyBank
+Used same pattern (with appropriate modifcations) that appears in the solution for PyPoll. 
+
+** DONE PyBoss
+Used iterators and 'map' to reduce length and complexity of the script. After some code which sets up an appropriate context, all the action happens in the two lines, 
+
+#+BEGIN_SRC python
+        clean.writeheader()
+        clean.writerows(map(term, data))
+#+END_SRC
+
+** TODO PyParagraph
+The problem is poorly stated; in particular, the term "word" is not clearly defined and has at-least two potential definitions [fn:def]. The only clarification as to the potential definition of "word" occurs when considering the example paragraph. There, the word count is presented as "122", this entails that "lion's" is counted as "lion" and "s"; which makes no sense [fn:dumb].
+
+* Footnotes
+[fn:def] Depending on whether or not things like "lion's" and "black-frock" are taken to be two separate "words".
+
+[fn:dumb] Unless you are narrowly restricting "word" to mean any substring matching the regex '(?:\b[a-zA-Z]+\b)'; which doesn't fit the imagined role of "chief linguist." 
+
