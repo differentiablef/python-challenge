@@ -1,35 +1,39 @@
-** DONE PyPoll
-The solution would have been much sorter (code length wise) if I had used pandas to group the data by the 'County' and 'Candidate' fields, then just counted the number of rows in each group. For example, something like
+* DONE PyPoll
+The solution would have been much sorter (code length wise) if pandas had been used to group the data by the 'County' and 'Candidate' fields, and count the number of unique rows in each group. For example, something like
 
 #+BEGIN_SRC python
 import os
 import pandas as pd
 datapath = os.path.join('.', 'Resources', 'election_data.csv')
-data = pd.read_csv(datapath) # read data
+data    = pd.read_csv(datapath) # read data
 grouped = data.groupby('Candidate', 'County']) # group data by county and candidate
-totals = (grouped.nunique())['Voter ID']
+totals  = (grouped.nunique())['Voter ID']
 # ... 
 #    formatting and printing of summary
 #+END_SRC
 
-However, this seemed to run slower than my original code; so I kept my 'load_data' method and just used DataFrames to help with formatting the summary.
+However, this seemed to run slower than my original code; so I kept my =load_data= method and just used DataFrames to help with formatting the summary.
 
-** DONE PyBank
-Used same pattern (with appropriate modifcations) that appears in the solution for PyPoll. 
+* DONE PyBank
+Used same pattern (with appropriate modifications) that appears in the solution for PyPoll.
 
-** DONE PyBoss
-Used 'map' to reduce length and complexity of the script. After some code which sets up an appropriate context, all the action happens in the two lines, 
+* DONE PyBoss
+Made use of the builtin function 'map' to reduce length and complexity of the script. After some code which sets up an appropriate context, all the action happens in the two lines, 
 
 #+BEGIN_SRC python
         clean.writeheader()
         clean.writerows(map(term, data))
 #+END_SRC
 
-** TODO PyParagraph
-The problem is poorly stated; in particular, the term "word" is not clearly defined and has at-least two potential definitions [fn:def]. The only clarification as to the potential definition of "word" occurs when considering the example paragraph. There, the word count is presented as "122", this entails that "lion's" is counted as "lion" and "s"; which makes no sense [fn:dumb].
+* DONE PyParagraph
+The problem is poorly stated; in particular, the term "word" is not clearly defined and has at-least two contextually appropriate definitions [fn:def]. The only clarification as to the potential definition of "word" occurs when considering the example paragraph. There, the word count is presented as "122", which entails that "black-frock" must be counted as "black" and "frock". However, in the context presented, this makes no sense [fn:dumb].
+
+In an effort to keep to the /spirit/ of the challenge, the solution makes use of the tokenize module from the [[https://www.nltk.org/][Natural Language Toolkit (nltk)]]. Moreover, to ensure every will work, the script attempts to download/update the fully trained 'punkt' tokenizer provided by nltk.
+
+This solution appears to be within the parameters of the exercise, since by default, nltk is included with anaconda (see [[https://docs.anaconda.com/anaconda/packages/py3.7_win-64/][package list for 64bit Windwos]], for example.) 
 
 * Footnotes
-[fn:def] Depending on whether or not things like "lion's" and "black-frock" are taken to be two separate "words".
+[fn:def] Depending on whether or not things like "black-frock" are taken to be two separate "words".
 
-[fn:dumb] Unless you are narrowly restricting "word" to mean any substring matching the regex '(?:\b[a-zA-Z]+\b)'; which doesn't fit the imagined role of "chief linguist." 
+[fn:dumb] It entails one is narrowly restricting "word" to mean any substring matching the regex '(?:\b[a-zA-Z]+\b)'; this doesn't fit the imagined role of "chief linguist" (see [[https://en.wikipedia.org/wiki/Word][definition of word]].)
 
