@@ -28,9 +28,9 @@ Made use of the builtin function 'map' to reduce length and complexity of the sc
 * DONE PyParagraph
 The problem is poorly stated; in particular, the term "word" is not clearly defined and has at-least two contextually appropriate definitions [fn:def]. The only clarification as to the potential definition of "word" occurs when considering the example paragraph. There, the word count is presented as "122", which entails that "black-frock" must be counted as "black" and "frock". However, in the context presented, this makes no sense [fn:dumb].
 
-In an effort to keep to the /spirit/ of the challenge, the solution makes use of the tokenize module from the [[https://www.nltk.org/][Natural Language Toolkit (nltk)]]. Moreover, to ensure every will work, the script attempts to download/update the fully trained 'punkt' tokenizer provided by nltk.
+In an effort to keep to the /spirit/ of the challenge, the solution makes use of the tokenize module from the [[https://www.nltk.org/][Natural Language Toolkit (nltk)]]. Moreover, to ensure everything will work, the script attempts to download/update the fully trained 'punkt' tokenizer provided by nltk.
 
-This solution appears to be within the parameters of the exercise, since by default, nltk is included with anaconda (see [[https://docs.anaconda.com/anaconda/packages/py3.7_win-64/][package list for 64bit Windwos]], for example.) 
+Doing this appears to be within the parameters of the exercise, since by default, nltk is included with anaconda (see [[https://docs.anaconda.com/anaconda/packages/py3.7_win-64/][package list for 64bit Windwos]], for example.) 
 
 * Footnotes
 [fn:def] Depending on whether or not things like "black-frock" are taken to be two separate "words".
