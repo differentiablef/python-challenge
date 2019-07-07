@@ -40,7 +40,7 @@ for path in data_paths:
     tokens = word_tokenize( prose )
 
     # filter out non-essential punct. 
-    parts = filter(lambda t: re.fullmatch('[^.\w]+', t) == None, tokens)
+    parts = filter(lambda t: re.fullmatch('[^.!?\w]+', t) == None, tokens)
 
     # simultaneously compute the relevant summary values.
     word_count = 0
