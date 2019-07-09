@@ -2,12 +2,12 @@
 The solution would have been much sorter (code length wise) if pandas had been used to group the data by the 'County' and 'Candidate' fields, and count the number of unique rows in each group. For example, something like
 
 #+BEGIN_SRC python
-import os
-import pandas as pd
-datapath = os.path.join('.', 'Resources', 'election_data.csv')
-data    = pd.read_csv(datapath) # read data
-grouped = data.groupby('Candidate', 'County']) # group data by county and candidate
-totals  = (grouped.nunique())['Voter ID']
+ import os
+ import pandas as pd
+ datapath = os.path.join('.', 'Resources', 'election_data.csv')
+ data    = pd.read_csv(datapath) # read data
+ grouped = data.groupby('Candidate', 'County']) # group data by county and candidate
+ totals  = (grouped.nunique())['Voter ID']
 # ... 
 #    formatting and printing of summary
 #+END_SRC
