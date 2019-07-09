@@ -8,8 +8,8 @@ The solution would have been much sorter (code length wise) if pandas had been u
  data    = pd.read_csv(datapath) # read data
  grouped = data.groupby('Candidate', 'County']) # group data by county and candidate
  totals  = (grouped.nunique())['Voter ID']
-# ... 
-#    formatting and printing of summary
+ # ... 
+ #    formatting and printing of summary
 #+END_SRC
 
 However, this seemed to run slower than my original code; so I kept my =load_data= method and just used DataFrames to help with formatting the summary.
